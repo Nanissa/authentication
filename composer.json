@@ -13,6 +13,11 @@
         }
     ],
     "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Nanissa\\Authentication\\": "src/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
