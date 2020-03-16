@@ -1,7 +1,8 @@
 <?php
 
 use App\User;
-use Nanissa\Authentication\Admin;
+use App\Admin;
+use App\Author;
 
 return [
     'name' => 'Authentication',
@@ -37,6 +38,30 @@ return [
      * */
     'user_models'   => [
         'user'  => User::class,
-        'admin' => Admin::class,
+        // Put other classes here
+    ],
+
+    /*
+     * Used as default model in case user_type is not indicated in the request
+     * this must match the name/key from the user_models listed above
+     * */
+    'default_user_model'    => 'user',
+
+
+    /*
+     * Change api routes with these config settings
+     * */
+    'web_routes'    =>  [
+        'prefix'    =>  'auth',     //Change if you want to have a different prefix for the api routes
+        'login'     => 'login',     //Change if you want to have a different login route for the api routes
+        'register'  => 'register',  //Change if you want to have a different register route the api routes
+        'logout'    => 'logout'     //Change if you want to have a different logout route the api routes
+    ],
+
+    'api_routes'    =>  [
+        'prefix'    =>  'auth',     //Change if you want to have a different prefix for the api routes
+        'login'     => 'login',     //Change if you want to have a different login route for the api routes
+        'register'  => 'register',  //Change if you want to have a different register route the api routes
+        'logout'    => 'logout'     //Change if you want to have a different logout route the api routes
     ]
 ];

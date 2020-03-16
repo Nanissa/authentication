@@ -2,7 +2,9 @@
 
 namespace Nanissa\Authentication;
 
+use \Illuminate\Contracts\Http\Kernel;
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
 class AuthenticationServiceProvider extends ServiceProvider
@@ -10,10 +12,17 @@ class AuthenticationServiceProvider extends ServiceProvider
     /**
      * Boot the application events.
      *
+     * @param Kernel $kernel
      * @return void
      */
-    public function boot()
+    public function boot(Kernel $kernel)
     {
+        /** @var Router $router */
+        $router = $this->app['router'];
+        $router->pushMiddlewareToGroup('web', \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class);
+
+        $kernel->pushMiddleware(\Illuminate\Session\Middleware\StartSession::class);
+
         $migrationSource = __DIR__.'/database/migrations';
         $this->registerConfig();
         $this->registerViews();

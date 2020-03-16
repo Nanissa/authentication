@@ -13,7 +13,12 @@ class AuthenticationController extends Controller
 {
     public function index()
     {
-        return view('authentication::index');
+        return view('authentication::login');
+    }
+
+    public function showRegistrationForm()
+    {
+        return view('authentication::register');
     }
 
     public function login(AuthLoginRequest $request)
@@ -64,13 +69,13 @@ class AuthenticationController extends Controller
 
     public function getUserModel(Request $request)
     {
-        $type = $request->user_type ?? 'user';
+        $type = $request->user_type ?? config('authentication.default_user_model');
         $models = config('authentication.user_models');
 
         if (array_key_exists($type,(array)$models))
             return $models[$type];
         else
-            return User::class;
+            return response()->json('You must set the default user model in the authentication config file!', 422);
     }
 
     public function checkForUser(Request $request)
