@@ -7,6 +7,8 @@ use App\Author;
 return [
     'name' => 'Authentication',
 
+    'user_type_column' => 'type', //Default is type. Make sure to add protected $childColumn = 'user_type_column'; to your User model is you change this.
+
     /*
      * Registration Rules for registration validation
      * You may add or edit to suit your needs

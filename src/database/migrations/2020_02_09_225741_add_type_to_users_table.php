@@ -14,7 +14,7 @@ class AddTypeToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('type')->nullable();
+            $table->string(config('authentication.user_type_column', 'type'))->nullable();
         });
     }
 
