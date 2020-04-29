@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Nanissa\Authentication;
-
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
@@ -49,7 +47,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        $webRoute = __DIR__.'/routes/web.php';
+        $webRoute = __DIR__ . '/routes/web.php';
         Route::middleware('web')
             ->namespace($this->moduleNamespace)
             ->group($webRoute);
@@ -64,7 +62,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        $apiRoute = __DIR__.'/routes/api.php';
+        $apiRoute = __DIR__ . '/routes/api.php';
         Route::prefix('api')
             ->middleware('api')
             ->namespace($this->moduleNamespace)

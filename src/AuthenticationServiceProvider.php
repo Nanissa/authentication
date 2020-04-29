@@ -2,9 +2,10 @@
 
 namespace Nanissa\Authentication;
 
-use \Illuminate\Contracts\Http\Kernel;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 class AuthenticationServiceProvider extends ServiceProvider
@@ -23,7 +24,7 @@ class AuthenticationServiceProvider extends ServiceProvider
 
         $kernel->pushMiddleware(\Illuminate\Session\Middleware\StartSession::class);
 
-        $migrationSource = __DIR__.'/database/migrations';
+        $migrationSource = __DIR__ . '/database/migrations';
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom($migrationSource);
@@ -51,7 +52,8 @@ class AuthenticationServiceProvider extends ServiceProvider
             $configPath => config_path('authentication.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            $configPath, 'authentication'
+            $configPath,
+            'authentication'
         );
     }
 
@@ -64,15 +66,15 @@ class AuthenticationServiceProvider extends ServiceProvider
     {
         $viewPath = resource_path('views/nanissa/authentication');
 
-        $sourcePath =  __DIR__.'/resources/views';
+        $sourcePath =  __DIR__ . '/resources/views';
 
         $this->publishes([
             $sourcePath => $viewPath
-        ],'views');
+        ], 'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
             return $path . '/nanissa/authentication';
-        }, \Config::get('view.paths')), [$sourcePath]), 'authentication');
+        }, Config::get('view.paths')), [$sourcePath]), 'authentication');
     }
 
 

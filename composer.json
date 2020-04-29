@@ -2,11 +2,20 @@
     "name": "nanissa/authentication",
     "description": "Laravel multi-auth with Laravel Passport",
     "require": {
-        "laravel/passport": "^7.0",
         "calebporzio/parental": "^0.10",
-        "laravel/framework": "^7.0"
+        "laravel/passport": "^7.0"
     },
-    "license": "MIT",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repository.test",
+            "options": {
+                "ssl": {
+                    "verify_peer": false
+                }
+            }
+        }
+    ],
     "authors": [
         {
             "name": "Issah Bin Mohammed",
