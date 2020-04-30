@@ -1,10 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
-
-//Route::middleware('auth:api')->get('/auth', function (Request $request) {
-//    return $request->user();
-//});
+use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => config('authentication.web_routes.prefix', 'auth')], function () {
     Route::post(config('authentication.web_routes.login', '/login'), 'AuthenticationController@login')->name('api.login');

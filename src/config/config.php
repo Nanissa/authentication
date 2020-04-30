@@ -1,8 +1,6 @@
 <?php
 
-use App\User;
-use App\Admin;
-use App\Author;
+use Nanissa\Authentication\User;
 
 return [
     'name' => 'Authentication',

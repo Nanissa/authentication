@@ -2,28 +2,39 @@
 
 namespace Nanissa\Authentication;
 
-use App\Http\Controllers\Controller;
-use App\User;
+use Nanissa\Authentication\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\View\View;
 
 class AuthenticationController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\View\Factory|View
+     **/
     public function index()
     {
         return view('authentication::login');
     }
 
+    /**
+    * @return \Illuminate\Contracts\View\Factory|View
+     **/
     public function showRegistrationForm()
     {
         return view('authentication::register');
     }
 
+    /**
+     * @param AuthLoginRequest $request
+     * @return JsonResponse
+     */
     public function login(AuthLoginRequest $request)
     {
-        if(!$this->checkForUser($request)) {
+        if (!$this->checkForUser($request)) {
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
@@ -38,8 +49,9 @@ class AuthenticationController extends Controller
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
 
-        if ($request->remember_me)
+        if ($request->remember_me) {
             $token->expires_at = Carbon::now()->addWeeks(1);
+        }
         $token->save();
         return response()->json([
             'access_token' => $tokenResult->accessToken,
@@ -48,7 +60,6 @@ class AuthenticationController extends Controller
                 $tokenResult->token->expires_at
             )->toDateTimeString(),
         ]);
-
     }
 
     public function register(AuthRegisterRequest $request)
@@ -72,19 +83,21 @@ class AuthenticationController extends Controller
         $type = $request->user_type ?? config('authentication.default_user_model');
         $models = config('authentication.user_models');
 
-        if (array_key_exists($type,(array)$models))
+        if (array_key_exists($type, (array)$models)) {
             return $models[$type];
-        else
+        } else {
             return response()->json('You must set the default user model in the authentication config file!', 422);
+        }
     }
 
     public function checkForUser(Request $request)
     {
         $model = $this->getUserModel($request);
         $user = $model::where('email', $request->email)->first();
-        if($user)
+        if ($user) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 }
