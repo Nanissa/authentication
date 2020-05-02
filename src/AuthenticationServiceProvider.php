@@ -5,8 +5,11 @@ namespace Nanissa\Authentication;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Routing\Router;
+use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
+use Laravel\Passport\Passport;
 
 class AuthenticationServiceProvider extends ServiceProvider
 {
@@ -18,11 +21,13 @@ class AuthenticationServiceProvider extends ServiceProvider
      */
     public function boot(Kernel $kernel)
     {
+        Passport::routes();
+
         /** @var Router $router */
         $router = $this->app['router'];
-        $router->pushMiddlewareToGroup('web', \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class);
+        $router->pushMiddlewareToGroup('web', CreateFreshApiToken::class);
 
-        $kernel->pushMiddleware(\Illuminate\Session\Middleware\StartSession::class);
+        $kernel->pushMiddleware(StartSession::class);
 
         $migrationSource = __DIR__ . '/database/migrations';
         $this->registerConfig();
