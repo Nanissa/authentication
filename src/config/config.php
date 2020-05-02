@@ -6,6 +6,7 @@ return [
     'name' => 'Authentication',
 
     'user_type_column' => 'type', //Default is type. Make sure to add protected $childColumn = 'user_type_column'; to your User model is you change this.
+    'default_type_value' => null, //Default value to store in type column
 
     /*
      * Registration Rules for registration validation
